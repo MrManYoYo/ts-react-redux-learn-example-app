@@ -10,6 +10,7 @@ import {
 // components
 import Navbar from './features/navbar/Navbar'
 import PostsList from './features/posts/PostsList'
+import AddPostForm from './features/posts/AddPostForm';
 
 function App() {
   return (
@@ -17,7 +18,10 @@ function App() {
       <Navbar />
       <div className="App">
         <Routes>
-          <Route path='/' element={ <PostsList /> }></Route>
+          <Route path='/' element={ <>
+            <AddPostForm />
+            <PostsList />
+          </> }></Route>
         </Routes>
       </div>
     </BrowserRouter>
