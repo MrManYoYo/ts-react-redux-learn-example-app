@@ -6,11 +6,13 @@ import { selectPosts } from './postsSlice'
 
 import PostAuthor from './PostAuthor';
 import TimeAgo from './TimeAgo'
+import ReactionButtons from './ReactionButtons';
 
 export const PostsList = () => {
   const posts = useSelector(selectPosts)
+  const sortedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date))
 
-  const renderedPosts = posts.map((post) => (
+  const renderedPosts = sortedPosts.map((post) => (
     <article className='post-excerpt' key={post.id}>
       <h3>{post.title}</h3>
       <div>
@@ -19,6 +21,7 @@ export const PostsList = () => {
       </div>
       <p className='post-content'>{post.content.substring(0, 100)}</p>
       <Link to={`/posts/${post.id}`} className="button muted-button">View Post</Link>
+      <ReactionButtons post={post} />
     </article>
   ))
   
