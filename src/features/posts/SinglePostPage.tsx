@@ -5,6 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { selectPosts } from './postsSlice'
 
 import PostAuthor from './PostAuthor';
+import TimeAgo from './TimeAgo'
 
 const SinglePostPage = ({ match }: any) => {
   const navigate = useNavigate()
@@ -30,10 +31,11 @@ const SinglePostPage = ({ match }: any) => {
   return (
     <section>
       <h2>{post.title}</h2>
-      <p>{post.content}</p>
-      <p>
+      <div>
         <PostAuthor userId={post.userId} />
-      </p>
+        <TimeAgo timestamp={post.date} />
+      </div>
+      <p>{post.content}</p>
       <button type='button' onClick={onEditHandle}>Edit Post</button>
     </section>
   );
