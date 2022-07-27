@@ -4,6 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 
 import { selectPosts } from './postsSlice'
 
+import PostAuthor from './PostAuthor';
+
 const SinglePostPage = ({ match }: any) => {
   const navigate = useNavigate()
   
@@ -29,7 +31,9 @@ const SinglePostPage = ({ match }: any) => {
     <section>
       <h2>{post.title}</h2>
       <p>{post.content}</p>
-
+      <p>
+        <PostAuthor userId={post.userId} />
+      </p>
       <button type='button' onClick={onEditHandle}>Edit Post</button>
     </section>
   );
