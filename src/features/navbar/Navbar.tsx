@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 
 function Navbar() {
   return (
@@ -8,6 +9,7 @@ function Navbar() {
 
         <div className="navContent">
           <div className="navLinks">
+            <Link to='/'>Back</Link>
           </div>
         </div>
       </section>
