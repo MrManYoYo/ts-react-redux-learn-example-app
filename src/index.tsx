@@ -25,11 +25,11 @@ async function start() {
   // Start our mock API server
   await worker.start({ onUnhandledRequest: 'bypass' })
   root.render(
-    <React.StrictMode>
+    // <React.StrictMode>
       <Provider store={store}>
         <App />
       </Provider>
-    </React.StrictMode>,
+    // </React.StrictMode>,
   )
 
   // If you want to start measuring performance in your app, pass a function
