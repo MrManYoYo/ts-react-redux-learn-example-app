@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
 
-import { selectPosts, postUpdated } from './postsSlice'
-
+import { selectPostById, postUpdated } from './postsSlice'
+import { RootState } from '../../app/store'
 
 const EditPostForm = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   
   const { postId } = useParams()
-  const posts = useSelector(selectPosts)
-  const post = posts.find(post => post.id === postId)
+  const post = useSelector((state: RootState) => selectPostById(state, postId))
 
   const defaultTitle = (post && post.title) || ''
   const defaultContent = (post && post.content) || ''

@@ -1,3 +1,9 @@
+export interface PostsState {
+  posts: Post[]
+  status: string
+  error: string | null
+}
+
 export interface Post {
   id: string
   date: string

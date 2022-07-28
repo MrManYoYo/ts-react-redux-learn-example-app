@@ -14,7 +14,7 @@ import AddPostForm from './features/posts/AddPostForm';
 import SinglePostPage from './features/posts/SinglePostPage';
 import EditPostForm from './features/posts/EditPostForm';
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <Navbar />
