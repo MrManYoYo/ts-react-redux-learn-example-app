@@ -31,7 +31,7 @@ const SinglePostPage = ({ match }: any) => {
     <section>
       <h2>{post.title}</h2>
       <div>
-        <PostAuthor userId={post.userId} />
+        <PostAuthor userId={post.user} />
         <TimeAgo timestamp={post.date} />
       </div>
       <p>{post.content}</p>

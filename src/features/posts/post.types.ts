@@ -1,6 +1,6 @@
 export interface PostsState {
   posts: Post[]
-  status: string
+  status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | null
 }
 
@@ -9,7 +9,7 @@ export interface Post {
   date: string
   title: string
   content: string
-  userId: string
+  user: string
   reactions: Reactions
 }
 
