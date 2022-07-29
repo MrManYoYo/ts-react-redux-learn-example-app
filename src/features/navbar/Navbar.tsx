@@ -10,6 +10,7 @@ function Navbar() {
         <div className="navContent">
           <div className="navLinks">
             <Link to='/'>Back</Link>
+            <Link to='/users'>Users</Link>
           </div>
         </div>
       </section>
