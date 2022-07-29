@@ -1,7 +1,6 @@
-import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
-// import { sub } from 'date-fns'
-import { PostsState, ReactionsTypes } from './post.types'
+import { PostsState, ReactionsTypes, AddPostForm } from './post.types'
 import { client } from '../../api/client'
 const initialState: PostsState = {
   posts: [],
@@ -14,35 +13,15 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   return response.data
 })
 
+export const addNewPost = createAsyncThunk<any, AddPostForm>('posts/addNewPost', async initialPost => {
+  const response = await client.post('/fakeApi/posts', initialPost)
+  return response.data
+})
+
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    postAdded: {
-      reducer (state, action) {
-        state.posts.push(action.payload)
-      },
-      prepare ({ title, content, userId }) {
-        return {
-          payload: {
-            id: nanoid(),
-            date: new Date().toISOString(),
-            title,
-            content,
-            userId,
-            reactions: {
-              thumbsUp: 0,
-              hooray: 0,
-              heart: 0,
-              rocket: 0,
-              eyes: 0
-            }
-          },
-          error: null,
-          meta: null,
-        }
-      }
-    },
     postUpdated (state, action) {
       const { postId, title, content } = action.payload
       const post = state.posts.find(post => post.id === postId)
@@ -78,6 +57,9 @@ const postsSlice = createSlice({
         state.status = 'failed'
         state.error = action.error.message || 'fetch failed'
       })
+      .addCase(addNewPost.fulfilled, (state, action) => {
+        state.posts.push(action.payload)
+      })
   }
 })
 
@@ -87,6 +69,6 @@ export const selectPosts = (state: RootState) => state.posts.posts
 export const selectPostById = (state: RootState, postId?: string) =>
   state.posts.posts.find(post => post.id === postId)
 
-export const { postAdded, postUpdated, reactionAdded, clearPosts } = postsSlice.actions
+export const { postUpdated, reactionAdded, clearPosts } = postsSlice.actions
 
 export default postsSlice.reducer

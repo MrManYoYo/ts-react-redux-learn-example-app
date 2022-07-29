@@ -13,6 +13,13 @@ export interface Post {
   reactions: Reactions
 }
 
+export interface AddPostForm {
+  title: string
+  content: string
+  user: string
+  reactions?: Reactions
+}
+
 export interface Reactions {
   thumbsUp: number
   hooray: number
