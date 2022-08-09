@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
 import { PostsState, ReactionsTypes, AddPostForm } from './post.types'
 import { client } from '../../api/client'
@@ -68,6 +68,10 @@ const postsSlice = createSlice({
 export const selectPosts = (state: RootState) => state.posts.posts
 export const selectPostById = (state: RootState, postId?: string) =>
   state.posts.posts.find(post => post.id === postId)
+export const selectPostsByUser = createSelector(
+  [selectPosts, (state, userId) => userId],
+  (posts, userId) => posts.filter(post => post.user === userId)
+)
 
 export const { postUpdated, reactionAdded, clearPosts } = postsSlice.actions
 

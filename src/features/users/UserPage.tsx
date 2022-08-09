@@ -4,16 +4,13 @@ import { useParams, Link } from 'react-router-dom'
 
 import { RootState } from '../../app/store'
 import { selectUserById, User } from './usersSlice'
-import { selectPosts } from '../posts/postsSlice'
+import { selectPostsByUser } from '../posts/postsSlice'
 import { Post } from '../posts/post.types'
 
 const UserPage = () => {
   const { userId } = useParams()
   const user = useSelector<RootState, User|undefined>(state => selectUserById(state, userId!))
-  const postsForUser = useSelector<RootState, Post[]|[]>(state => {
-    const posts = selectPosts(state)
-    return posts.filter(post => post.user === userId)
-  })
+  const postsForUser = useSelector<RootState, Post[]|[]>(state => selectPostsByUser(state, userId as string))
 
   if (!user) {
     return <div>Not Found</div>

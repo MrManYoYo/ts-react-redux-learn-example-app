@@ -11,7 +11,7 @@ import PostAuthor from './PostAuthor';
 import TimeAgo from './TimeAgo'
 import ReactionButtons from './ReactionButtons';
 
-const PostExcerpt = ({ post }: { post: Post }) => {
+const PostExcerpt = React.memo(({ post }: { post: Post }) => {
   return (
     <article className='post-excerpt' key={post.id}>
       <h3>{post.title}</h3>
@@ -24,7 +24,8 @@ const PostExcerpt = ({ post }: { post: Post }) => {
       <ReactionButtons post={post} />
     </article>
   )
-}
+})
+
 
 export const PostsList = () => {
   const dispatch: AppDispatch = useDispatch()
