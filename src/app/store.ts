@@ -1,11 +1,13 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import postsSlice from '../features/posts/postsSlice';
 import usersSlice from '../features/users/usersSlice'
+import notificationsSlice from '../features/notifications/notificationsSlice';
 
 export const store = configureStore({
   reducer: {
     posts: postsSlice,
-    users: usersSlice
+    users: usersSlice,
+    notifications: notificationsSlice
   },
 });
 

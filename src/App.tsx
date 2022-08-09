@@ -15,6 +15,7 @@ import SinglePostPage from './features/posts/SinglePostPage';
 import EditPostForm from './features/posts/EditPostForm';
 import UsersList from './features/users/UsersList';
 import UserPage from './features/users/UserPage';
+import Notifications from './features/notifications/NotificationsList'
 
 const App = () => {
   return (
@@ -42,6 +43,7 @@ const App = () => {
           <Route path='/users' element={ <UsersList /> }>
             <Route path=':userId' element={ <UserPage /> }></Route>
           </Route>
+          <Route path='/notifications' element={ <Notifications /> }></Route>
 
           <Route path='*' element={ <div>404</div> }></Route>
 
