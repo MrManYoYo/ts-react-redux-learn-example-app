@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { AppDispatch } from '../../app/store'
 
-import { fetchNotifications, selectNotifications } from '../notifications/notificationsSlice'
+import { fetchNotifications, selectAllNotifications } from '../notifications/notificationsSlice'
 
 function Navbar() {
   const dispatch: AppDispatch = useDispatch();
-  const notifications = useSelector(selectNotifications)
+  const notifications = useSelector(selectAllNotifications)
   const numUnread = notifications.filter(n => !n.read).length
 
   let unreadBadge = numUnread > 0 ? (

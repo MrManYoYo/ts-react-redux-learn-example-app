@@ -5,13 +5,13 @@ import classNames from 'classnames';
 import { AppDispatch } from '../../app/store';
 
 
-import { selectUsers } from '../users/usersSlice'
-import { selectNotifications, allNotificationsRead } from './notificationsSlice';
+import { selectAllUsers } from '../users/usersSlice'
+import { selectAllNotifications, allNotificationsRead } from './notificationsSlice';
 
 const NotificationsList = () => {
   const dispatch: AppDispatch = useDispatch()
-  const notifications = useSelector(selectNotifications)
-  const users = useSelector(selectUsers)
+  const notifications = useSelector(selectAllNotifications)
+  const users = useSelector(selectAllUsers)
 
   useEffect(() => {
     dispatch(allNotificationsRead())

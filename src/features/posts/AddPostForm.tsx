@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { AppDispatch } from '../../app/store'
 import { addNewPost } from './postsSlice'
-import { selectUsers } from '../users/usersSlice'
+import { selectAllUsers } from '../users/usersSlice'
 
 const AddPostForm = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -37,7 +37,7 @@ const AddPostForm = () => {
     }
   }
 
-  const users = useSelector(selectUsers)
+  const users = useSelector(selectAllUsers)
 
   const renderedUserOption = users.map(user => (
     <option value={user.id} key={user.id}>{user.name}</option>

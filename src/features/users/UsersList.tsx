@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux'
 import { Link, Outlet } from 'react-router-dom';
-import { selectUsers } from './usersSlice'
+import { selectAllUsers } from './usersSlice'
 
 const UsersList = () => {
-  const users = useSelector(selectUsers)
+  const users = useSelector(selectAllUsers)
   
   const renderedUsers = users.map(user => (
     <li key={user.id}>
