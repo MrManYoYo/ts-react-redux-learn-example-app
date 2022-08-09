@@ -13,7 +13,7 @@ const SinglePostPage = ({ match }: any) => {
   
   const { postId } = useParams()
 
-  const post = useSelector((state: RootState) => selectPostById(state, postId))
+  const post = useSelector((state: RootState) => selectPostById(state, postId as string))
 
   const onEditHandle = () => {
     navigate(`/editPost/${postId}`)

@@ -1,5 +1,4 @@
-export interface PostsState {
-  posts: Post[]
+export interface PostsExtraState {
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | null
 }

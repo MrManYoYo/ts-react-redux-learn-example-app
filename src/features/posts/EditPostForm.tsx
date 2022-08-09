@@ -10,7 +10,7 @@ const EditPostForm = () => {
   const navigate = useNavigate()
   
   const { postId } = useParams()
-  const post = useSelector((state: RootState) => selectPostById(state, postId))
+  const post = useSelector((state: RootState) => selectPostById(state, postId as string))
 
   const defaultTitle = (post && post.title) || ''
   const defaultContent = (post && post.content) || ''
