@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
 
 import { selectPostById, postUpdated } from './postsSlice'
-import { RootState } from '../../app/store'
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
 
 const EditPostForm = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   
   const { postId } = useParams()
-  const post = useSelector((state: RootState) => selectPostById(state, postId as string))
+  const post = useAppSelector(state => selectPostById(state, String(postId)))
 
   const defaultTitle = (post && post.title) || ''
   const defaultContent = (post && post.content) || ''

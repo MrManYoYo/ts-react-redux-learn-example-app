@@ -1,9 +1,9 @@
 import React from 'react';
-import { useSelector } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
 
+import { useAppSelector } from '../../app/hooks';
+
 import { selectPostById } from './postsSlice'
-import { RootState } from '../../app/store'
 
 import PostAuthor from './PostAuthor';
 import TimeAgo from './TimeAgo'
@@ -13,7 +13,7 @@ const SinglePostPage = ({ match }: any) => {
   
   const { postId } = useParams()
 
-  const post = useSelector((state: RootState) => selectPostById(state, postId as string))
+  const post = useAppSelector(state => selectPostById(state, postId as string))
 
   const onEditHandle = () => {
     navigate(`/editPost/${postId}`)

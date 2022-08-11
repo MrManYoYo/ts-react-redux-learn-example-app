@@ -1,13 +1,12 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
-import { AppDispatch } from '../../app/store'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 
 import { fetchNotifications, selectAllNotifications } from '../notifications/notificationsSlice'
 
-function Navbar() {
-  const dispatch: AppDispatch = useDispatch();
-  const notifications = useSelector(selectAllNotifications)
+const Navbar = () => {
+  const dispatch = useAppDispatch();
+  const notifications = useAppSelector(selectAllNotifications)
   const numUnread = notifications.filter(n => !n.read).length
 
   let unreadBadge = numUnread > 0 ? (

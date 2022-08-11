@@ -1,16 +1,14 @@
 import React from 'react';
-import { useSelector } from 'react-redux'
 import { useParams, Link } from 'react-router-dom'
 
-import { RootState } from '../../app/store'
-import { selectUserById, User } from './usersSlice'
+import { selectUserById } from './usersSlice'
 import { selectPostsByUser } from '../posts/postsSlice'
-import { Post } from '../posts/post.types'
+import { useAppSelector } from '../../app/hooks';
 
 const UserPage = () => {
   const { userId } = useParams()
-  const user = useSelector<RootState, User|undefined>(state => selectUserById(state, userId!))
-  const postsForUser = useSelector<RootState, Post[]|[]>(state => selectPostsByUser(state, userId as string))
+  const user = useAppSelector(state => selectUserById(state, userId!))
+  const postsForUser = useAppSelector(state => selectPostsByUser(state, String(userId)))
 
   if (!user) {
     return <div>Not Found</div>

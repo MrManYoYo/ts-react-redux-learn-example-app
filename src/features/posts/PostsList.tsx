@@ -1,18 +1,15 @@
 import React, { ReactNode, useEffect } from 'react';
 import { Link } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-
-import { RootState, AppDispatch } from '../../app/store'
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
 
 import { fetchPosts, selectPostIds, selectPostById } from './postsSlice'
-import { Post } from './post.types'
 
 import PostAuthor from './PostAuthor';
 import TimeAgo from './TimeAgo'
 import ReactionButtons from './ReactionButtons';
 
 const PostExcerpt = React.memo(({ postId }: { postId: string|number }) => {
-  const post = useSelector<RootState, Post|undefined>(state => selectPostById(state, postId))
+  const post = useAppSelector(state => selectPostById(state, postId))
   return post ? (
     <article className='post-excerpt' key={post.id}>
       <h3>{post.title}</h3>
@@ -29,10 +26,10 @@ const PostExcerpt = React.memo(({ postId }: { postId: string|number }) => {
 
 
 export const PostsList = () => {
-  const dispatch: AppDispatch = useDispatch()
-  const orderedPostIds = useSelector(selectPostIds)
-  const postStatus = useSelector<RootState>((state) => state.posts.status)
-  const error = useSelector<RootState>((state) => state.posts.error)
+  const dispatch = useAppDispatch()
+  const orderedPostIds = useAppSelector(selectPostIds)
+  const postStatus = useAppSelector((state) => state.posts.status)
+  const error = useAppSelector((state) => state.posts.error)
 
   useEffect(() => {
     if (postStatus === 'idle') {

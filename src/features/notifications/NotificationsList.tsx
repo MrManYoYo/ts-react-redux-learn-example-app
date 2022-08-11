@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { formatDistanceToNow, parseISO } from 'date-fns'
 import classNames from 'classnames';
-import { AppDispatch } from '../../app/store';
-
+import { useAppSelector, useAppDispatch } from '../../app/hooks'
 
 import { selectAllUsers } from '../users/usersSlice'
 import { selectAllNotifications, allNotificationsRead } from './notificationsSlice';
 
 const NotificationsList = () => {
-  const dispatch: AppDispatch = useDispatch()
-  const notifications = useSelector(selectAllNotifications)
-  const users = useSelector(selectAllUsers)
+  const dispatch = useAppDispatch()
+  const notifications = useAppSelector(selectAllNotifications)
+  const users = useAppSelector(selectAllUsers)
 
   useEffect(() => {
     dispatch(allNotificationsRead())
