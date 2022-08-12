@@ -1,28 +1,28 @@
 import React, { useState } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { addNewPost } from './postsSlice'
+import { useAppSelector } from '../../app/hooks';
 import { selectAllUsers } from '../users/usersSlice'
+import { useAddNewPostMutation } from '../api/apiSlice';
 
 const AddPostForm = () => {
-  const dispatch = useAppDispatch();
 
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [userId, setUserId] = useState('')
-  const [addReqStatus, setAddReqStatus] = useState('idle')
+
+  const [addNewPost, { isLoading }] = useAddNewPostMutation();
+  const users = useAppSelector(selectAllUsers)
 
   const onTitleChanged = (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
   const onContentChanged = (e: React.ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value);
   const onUserChanged = (e: React.ChangeEvent<HTMLSelectElement>) => setUserId(e.target.value);
 
-  const canSave = [title, content, userId].every(Boolean) && addReqStatus === 'idle'
+  const canSave = [title, content, userId].every(Boolean) && !isLoading
   
   const onSaveHandle = async () => {
     if (canSave) {
       try {
-        setAddReqStatus('pending')
-        const result = await dispatch(addNewPost({ title, content, user: userId })).unwrap()
+        const result = await addNewPost({ title, content, user: userId }).unwrap()
         console.log(result)
         setTitle('')
         setContent('')
@@ -30,13 +30,10 @@ const AddPostForm = () => {
       } catch (err) {
         console.log('Failed to save the post')
         console.log(err)
-      } finally {
-        setAddReqStatus('idle')
       }
     }
   }
 
-  const users = useAppSelector(selectAllUsers)
 
   const renderedUserOption = users.map(user => (
     <option value={user.id} key={user.id}>{user.name}</option>

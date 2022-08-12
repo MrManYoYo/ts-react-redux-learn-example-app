@@ -1,9 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom'
 
-import { useAppSelector } from '../../app/hooks';
-
-import { selectPostById } from './postsSlice'
+import { useGetPostQuery } from '../api/apiSlice'
 
 import PostAuthor from './PostAuthor';
 import TimeAgo from './TimeAgo'
@@ -13,21 +11,21 @@ const SinglePostPage = ({ match }: any) => {
   
   const { postId } = useParams()
 
-  const post = useAppSelector(state => selectPostById(state, postId as string))
+  const {
+    data: post,
+    isFetching,
+    isSuccess,
+  } = useGetPostQuery(String(postId))
 
   const onEditHandle = () => {
     navigate(`/editPost/${postId}`)
   }
-
-  if (!post) {
-    return (
-      <section>
-        <h2>Not Found</h2>
-      </section>
-    )
-  }
   
-  return (
+  return isFetching ? (
+    <section>
+      <h2>Loading...</h2>
+    </section>
+  ) : isSuccess ? (
     <section>
       <h2>{post.title}</h2>
       <div>
@@ -36,6 +34,10 @@ const SinglePostPage = ({ match }: any) => {
       </div>
       <p>{post.content}</p>
       <button type='button' onClick={onEditHandle}>Edit Post</button>
+    </section>
+  ) : (
+    <section>
+      <h2>Not Found</h2>
     </section>
   );
 }

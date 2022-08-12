@@ -1,5 +1,6 @@
 import React, { ReactNode, useMemo } from 'react';
 import { Link } from 'react-router-dom'
+import classNames from 'classnames';
 
 import { useGetPostsQuery } from '../api/apiSlice';
 
@@ -29,9 +30,11 @@ export const PostsList = () => {
   const {
     data: posts = [],
     isLoading,
+    isFetching,
     isSuccess,
     isError,
-    error
+    error,
+    refetch,
   } = useGetPostsQuery()
 
   const sortedPosts = useMemo(() => {
@@ -45,9 +48,15 @@ export const PostsList = () => {
   if (isLoading) {
     content = <>Loading...</>
   } else if (isSuccess) {
-    content = sortedPosts.map((post: Post) => (
+    const _sortedPosts = sortedPosts.map((post: Post) => (
       <PostExcerpt post={post} key={post.id} />
     ))
+
+    const containerClassnames = classNames('posts-container', {
+      disabled: isFetching
+    })
+
+    content = <div className={containerClassnames}>{_sortedPosts}</div>
   } else if (isError) {
     content = <div>{error.toString()}</div>
   }
@@ -55,6 +64,7 @@ export const PostsList = () => {
   return (
     <div className='posts-list'>
       <h2>Posts</h2>
+      <button onClick={refetch}>Refetch Posts</button>
       <div>{ content }</div>
     </div>
   );
