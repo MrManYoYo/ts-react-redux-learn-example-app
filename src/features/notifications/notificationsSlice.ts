@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit'
-import { RootState } from '../../app/store'
+import { AppDispatch, RootState } from '../../app/store'
 import { client } from '../../api/client'
-
 interface Notification {
   [propName: string]: any;
 }
@@ -12,8 +11,11 @@ const notificationsAdapter = createEntityAdapter<Notification>({
 
 const initialState = notificationsAdapter.getInitialState();
 
-export const fetchNotifications = createAsyncThunk('notifications/fetchNotifications', async (_, { getState }) => {
-  const allNotifications = selectAllNotifications(getState() as RootState)
+export const fetchNotifications = createAsyncThunk<any, void, {
+  dispatch: AppDispatch,
+  state: RootState
+}>('notifications/fetchNotifications', async (_, { getState }) => {
+  const allNotifications = selectAllNotifications(getState())
   console.log('allNotifications', allNotifications)
   const [latestNotification] = allNotifications
   const latestTimestamp = latestNotification ? latestNotification.date : ''
