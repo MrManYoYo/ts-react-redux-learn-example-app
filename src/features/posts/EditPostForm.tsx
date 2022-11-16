@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'
 
-import { selectPostById, postUpdated } from './postsSlice'
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { useGetPostQuery, useEditPostMutation } from '../api/apiSlice';
 
 const EditPostForm = () => {
-  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   
-  const { postId } = useParams()
-  const post = useAppSelector(state => selectPostById(state, String(postId)))
+  const { postId = '' } = useParams()
+  const { data: post } = useGetPostQuery(postId)
 
   const defaultTitle = (post && post.title) || ''
   const defaultContent = (post && post.content) || ''
@@ -20,14 +18,16 @@ const EditPostForm = () => {
   const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)
   const onContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)
 
-  const onSaveHandle = () => {
+  const [updatePost, { isLoading }] = useEditPostMutation()
+
+  const onSaveHandle = async () => {
     if (title && content) {
-      dispatch(postUpdated({
-        postId,
+      await updatePost({
+        id: postId,
         title,
         content
-      }))
-      navigate('/')
+      })
+      navigate(`/posts/${postId}`)
     }
   }
   
@@ -57,7 +57,7 @@ const EditPostForm = () => {
           value={content}
           onChange={onContentChange} />
 
-        <button type='button' onClick={onSaveHandle}>Save</button>
+        <button type='button' disabled={isLoading} onClick={onSaveHandle}>Save</button>
       </form>
     </section>
   );
