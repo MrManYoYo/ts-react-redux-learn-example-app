@@ -1,9 +1,7 @@
 import React from 'react';
-import { reactionAdded } from './postsSlice'
-
-import { useAppDispatch } from '../../app/hooks';
-
 import { Post, ReactionsTypes } from './post.types'
+
+import { useAddReactionMutation } from '../api/apiSlice'
 
 interface Props {
   post: Post
@@ -18,17 +16,16 @@ const reactionEmoji = {
 }
 
 const ReactionButtons = ({ post }: Props) => {
-  const dispatch = useAppDispatch()
+  const [addReaction] = useAddReactionMutation()
 
   const renderedButton = Object.entries(reactionEmoji).map(([name, emoji]) => (
     <button
       type='button'
       key={name}
       className='muted-button reaction-button'
-      onClick={() => dispatch(reactionAdded({
-        postId: post.id,
-        reaction: name
-      }))}
+      onClick={() => {
+        addReaction({ postId: post.id, reaction: name })
+      }}
     >
       {emoji} {post.reactions[name as ReactionsTypes]}
     </button>

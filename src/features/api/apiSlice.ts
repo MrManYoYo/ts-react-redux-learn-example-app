@@ -42,6 +42,31 @@ export const apiSlice = createApi({
         body: post
       }),
       invalidatesTags: (result, error, arg) => [{ type: 'Post' as const, id: arg.id }]
+    }),
+    addReaction: builder.mutation({
+      query: ({ postId, reaction }) => ({
+        url: `/posts/${postId}/reactions`,
+        method: 'POST',
+        body: { reaction }
+      }),
+      async onQueryStarted({ postId, reaction }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          apiSlice.util.updateQueryData('getPosts', undefined, darft => {
+            console.log(darft)
+            const post = darft.find(post => post.id === postId)
+            if (post) {
+              // @ts-ignore
+              post.reactions[reaction]++;
+            }
+          })
+        )
+        try {
+          await queryFulfilled
+        } catch {
+          patchResult.undo()
+        }
+      },
+      // invalidatesTags: (result, error, arg) => [{ type: 'Post' as const, id: arg.postId }]
     })
   })
 });
@@ -51,5 +76,6 @@ export const {
   useGetPostsQuery,
   useGetPostQuery,
   useAddNewPostMutation,
-  useEditPostMutation
+  useEditPostMutation,
+  useAddReactionMutation,
 } = apiSlice

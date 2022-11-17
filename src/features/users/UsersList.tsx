@@ -2,10 +2,12 @@ import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 import { useAppSelector } from '../../app/hooks';
-import { selectAllUsers } from './usersSlice'
+import { selectAllUsers } from './usersApiSlice'
+import { User } from './users.types';
 
 const UsersList = () => {
-  const users = useAppSelector(selectAllUsers)
+  // @ts-ignore
+  const users = useAppSelector<User[]>(selectAllUsers)
   
   const renderedUsers = users.map(user => (
     <li key={user.id}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { selectUserById } from '../users/usersSlice'
+import { selectUserById } from '../users/usersApiSlice'
 import { useAppSelector } from '../../app/hooks';
 
 const PostAuthor = ({ userId }: { userId: string }) => {

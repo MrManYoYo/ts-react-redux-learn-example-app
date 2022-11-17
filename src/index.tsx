@@ -7,8 +7,9 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 import './primitiveui.css';
 import { worker } from './api/server'
-import { fetchUsers } from './features/users/usersSlice'
+// import { fetchUsers } from './features/users/usersSlice'
 
+import { usersExtendedApi } from './features/users/usersApiSlice';
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 
@@ -26,7 +27,8 @@ async function start() {
   // Start our mock API server
   await worker.start({ onUnhandledRequest: 'bypass' })
 
-  store.dispatch(fetchUsers())
+  // store.dispatch(fetchUsers())
+  store.dispatch(usersExtendedApi.endpoints.getUsers.initiate(undefined))
 
   root.render(
     // <React.StrictMode>

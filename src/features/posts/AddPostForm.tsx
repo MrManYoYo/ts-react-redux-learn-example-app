@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 
-import { useAppSelector } from '../../app/hooks';
-import { selectAllUsers } from '../users/usersSlice'
+import { selectAllUsers } from '../users/usersApiSlice'
 import { useAddNewPostMutation } from '../api/apiSlice';
+import { User } from '../users/users.types';
+import { useSelector } from 'react-redux';
 
 const AddPostForm = () => {
 
@@ -11,7 +12,7 @@ const AddPostForm = () => {
   const [userId, setUserId] = useState('')
 
   const [addNewPost, { isLoading }] = useAddNewPostMutation();
-  const users = useAppSelector(selectAllUsers)
+  const users = useSelector(selectAllUsers)
 
   const onTitleChanged = (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
   const onContentChanged = (e: React.ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value);
@@ -22,8 +23,7 @@ const AddPostForm = () => {
   const onSaveHandle = async () => {
     if (canSave) {
       try {
-        const result = await addNewPost({ title, content, user: userId }).unwrap()
-        console.log(result)
+        await addNewPost({ title, content, user: userId }).unwrap()
         setTitle('')
         setContent('')
         setUserId('')
@@ -35,7 +35,7 @@ const AddPostForm = () => {
   }
 
 
-  const renderedUserOption = users.map(user => (
+  const renderedUserOption = (users as User[]).map(user => (
     <option value={user.id} key={user.id}>{user.name}</option>
   ))
   return (
